@@ -20,7 +20,7 @@ app.use("/api/users", userRoutes);
 
 mongoose
   .connect(
-    "mongodb+srv://buAdmin:@bu-planning-app.n09tuz2.mongodb.net/app_data"
+    "mongodb+srv://buAdmin:fZOYFoYU7h0Nt3Kr@bu-planning-app.n09tuz2.mongodb.net/app_data"
   )
   .then(() => {
     app.listen(5000);
