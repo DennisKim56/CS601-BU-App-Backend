@@ -3,9 +3,10 @@ const router = express.Router();
 
 const userControllers = require("../controllers/users");
 
-router.get("/", (req, res, next) => {
-  console.log("GET REQUEST IN USERS");
-  res.json({ message: "it works!" });
-});
+router.get("/", userControllers.getUsers);
+
+router.post("/signup", userControllers.signup);
+
+router.post("/login", userControllers.login);
 
 module.exports = router;

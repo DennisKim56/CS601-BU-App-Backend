@@ -1,7 +1,7 @@
 const Course = require("../models/courses");
 
 const addCourse = async (req, res, next) => {
-  const newCourse = new Program({
+  const newCourse = new Course({
     courseId: req.body.courseId,
     title: req.body.title,
     description: req.body.description,
@@ -17,8 +17,17 @@ const addCourse = async (req, res, next) => {
 };
 
 const getCourses = async (req, res, next) => {
-  const courses = await Course.find().exec();
-  res.json(courses);
+  const courseIdList = req.body.courseIds ?? [];
+  let courses;
+  try {
+    courses = await Course.find({ courseId: { $in: courseIdList } });
+  } catch (error) {
+    return res.status(500).json({ message: "Could not find courses" });
+  }
+
+  res.json({
+    courses: courses.map((course) => course.toObject({ getters: true })),
+  });
 };
 
 exports.addCourse = addCourse;

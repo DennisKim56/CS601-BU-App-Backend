@@ -5,8 +5,6 @@ const courseControllers = require("../controllers/courses");
 
 router.post("/", courseControllers.addCourse);
 
-router.get("/:programId", (req, res, next) => {
-  const programId = req.params.programId;
-});
+router.get("/", courseControllers.getCourses);
 
 module.exports = router;
