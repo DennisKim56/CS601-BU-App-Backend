@@ -6,8 +6,8 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true, minlength: 6 },
   email: { type: String, required: true, unique: true },
   name: { type: String },
-  program: { type: mongoose.Types.ObjectId, required: true, ref: "Program " },
-  plan: { type: mongoose.Types.ObjectId, required: true, ref: "Plan" },
+  program: { type: mongoose.Types.ObjectId, ref: "Program" },
+  plan: { type: mongoose.Types.ObjectId, ref: "Plan" },
 });
 
 userSchema.plugin(uniqueValidator);

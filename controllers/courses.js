@@ -7,17 +7,20 @@ const addCourse = async (req, res, next) => {
     description: req.body.description,
     requirements: req.body.requirements,
   });
+
   let result;
   try {
     result = await newCourse.save();
   } catch (error) {
     return res.status(500).json({ message: "Could not add new course" });
   }
+
   res.status(201).json(result);
 };
 
 const getCourses = async (req, res, next) => {
   const courseIdList = req.body.courseIds ?? [];
+
   let courses;
   try {
     courses = await Course.find({ courseId: { $in: courseIdList } });

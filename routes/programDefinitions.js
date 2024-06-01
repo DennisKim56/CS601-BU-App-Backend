@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const programDefinitionControllers = require("../controllers/program-definition");
+const programDefinitionControllers = require("../controllers/programDefinitions");
 
 router.post("/", programDefinitionControllers.createProgramDefinition);
 

@@ -5,6 +5,6 @@ const programControllers = require("../controllers/programs");
 
 router.post("/", programControllers.createProgram);
 
-router.get("/", programControllers.getPrograms);
+router.get("/", programControllers.getProgram);
 
 module.exports = router;
