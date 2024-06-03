@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const gradebookSchema = new mongoose.Schema({
+  user: { type: mongoose.Types.ObjectId, required: true, ref: "Course" },
   plan: { type: mongoose.Types.ObjectId, required: true, ref: "Plan" },
   course: { type: mongoose.Types.ObjectId, required: true, ref: "Course" },
   gradeItems: [
@@ -15,4 +16,4 @@ const gradebookSchema = new mongoose.Schema({
   ],
 });
 
-module.exports = mongoose.model("Course", gradebookSchema);
+module.exports = mongoose.model("Gradebook", gradebookSchema);

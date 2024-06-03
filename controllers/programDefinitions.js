@@ -24,7 +24,7 @@ const createProgramDefinition = async (req, res, next) => {
   for (const courseId of req.body.requiredCourses) {
     let course;
     try {
-      course = await Course.findOne({ courseId: courseId }).exec();
+      course = await Course.findById(courseId);
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
@@ -43,7 +43,7 @@ const createProgramDefinition = async (req, res, next) => {
   for (const courseId of req.body.electiveCourses) {
     let course;
     try {
-      course = await Course.findOne({ courseId: courseId }).exec();
+      course = await Course.findById(courseId);
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
@@ -67,7 +67,7 @@ const createProgramDefinition = async (req, res, next) => {
       let course2;
 
       try {
-        course1 = await Course.findOne({ courseId: choice1 }).exec();
+        course1 = await Course.findById(choice1);
       } catch (error) {
         return res.status(500).json({ message: error.message });
       }
@@ -78,7 +78,7 @@ const createProgramDefinition = async (req, res, next) => {
       }
 
       try {
-        course2 = await Course.findOne({ courseId: choice2 }).exec();
+        course2 = await Course.findById(choice2);
       } catch (error) {
         return res.status(500).json({ message: error.message });
       }
@@ -97,7 +97,6 @@ const createProgramDefinition = async (req, res, next) => {
       } catch (error) {
         return res.status(500).json({ message: error.message });
       }
-      console.log(newChoiceCourse._id);
       if (newChoiceCourse) {
         choiceCoursePairs.push(newChoiceCourse._id);
       }
@@ -149,7 +148,17 @@ const getProgramDefinition = async (req, res, next) => {
     })
       .populate("requiredCourses")
       .populate("electiveCourses")
-      .populate("choicesCourses");
+      .populate({
+        path: "choicesCourses",
+        populate: [
+          {
+            path: "choice1",
+          },
+          {
+            path: "choice2",
+          },
+        ],
+      });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
