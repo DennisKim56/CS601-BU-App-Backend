@@ -16,6 +16,21 @@ const createProgram = async (req, res, next) => {
   res.status(201).json({ program: program.toObject({ getters: true }) });
 };
 
+const getAllPrograms = async (req, res, next) => {
+  let programs;
+  try {
+    programs = await Program.find({}, "subject concentration");
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Get programs failed. Please try again later." });
+  }
+
+  res.json({
+    programs: programs.map((program) => program.toObject({ getters: true })),
+  });
+};
+
 const getProgram = async (req, res, next) => {
   let program;
   try {
@@ -36,3 +51,4 @@ const getProgram = async (req, res, next) => {
 
 exports.createProgram = createProgram;
 exports.getProgram = getProgram;
+exports.getAllPrograms = getAllPrograms;

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const gradebookSchema = new mongoose.Schema({
-  user: { type: mongoose.Types.ObjectId, required: true, ref: "Course" },
+  user: { type: mongoose.Types.ObjectId, required: true, ref: "User" },
   plan: { type: mongoose.Types.ObjectId, required: true, ref: "Plan" },
   course: { type: mongoose.Types.ObjectId, required: true, ref: "Course" },
   gradeItems: [

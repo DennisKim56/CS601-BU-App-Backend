@@ -6,7 +6,9 @@ const planControllers = require("../controllers/plans");
 
 router.use(checkAuth);
 
-router.get("/", planControllers.getPlanById);
+router.get("/id", planControllers.getPlanById);
+
+router.get("/", planControllers.getPlanByUser);
 
 router.post("/", planControllers.createPlan);
 
