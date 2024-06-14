@@ -13,7 +13,7 @@ module.exports = async (req, res, next) => {
     if (!token) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
-    const decodedToken = jwt.verify(token, "boston_university_secret");
+    const decodedToken = jwt.verify(token, process.env.JWT_KEY);
 
     // Check if userId is valid
     let user;
@@ -30,6 +30,6 @@ module.exports = async (req, res, next) => {
     req.userData = { userId: decodedToken.userId };
     next();
   } catch (error) {
-    return res.status(500).json({ message: "Invalid credentials" });
+    return res.status(500).json({ message: "Error validating credentials" });
   }
 };

@@ -1,6 +1,7 @@
-const checkAuth = require("../utility/check-auth");
 const express = require("express");
 const router = express.Router();
+
+const checkAuth = require("../utility/check-auth");
 
 const planControllers = require("../controllers/plans");
 

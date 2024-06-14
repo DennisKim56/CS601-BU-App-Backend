@@ -7,4 +7,6 @@ router.post("/", courseControllers.addCourse);
 
 router.get("/", courseControllers.getCourses);
 
+router.get("/all", courseControllers.getAllCourses);
+
 module.exports = router;

@@ -33,5 +33,19 @@ const getCourses = async (req, res, next) => {
   });
 };
 
+const getAllCourses = async (req, res, next) => {
+  let courses;
+  try {
+    courses = await Course.find({});
+  } catch (error) {
+    return res.status(500).json({ message: "Could not find courses" });
+  }
+
+  res.json({
+    courses: courses.map((course) => course.toObject({ getters: true })),
+  });
+};
+
 exports.addCourse = addCourse;
 exports.getCourses = getCourses;
+exports.getAllCourses = getAllCourses;

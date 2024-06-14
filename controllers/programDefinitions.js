@@ -172,5 +172,51 @@ const getProgramDefinition = async (req, res, next) => {
   }
 };
 
+const getProgramDefinitionById = async (req, res, next) => {
+  // Get program id
+  let program;
+  try {
+    program = await Program.findById(req.body.programId).exec();
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+
+  if (!program) {
+    return res.status(404).json({ message: "No program found" });
+  }
+
+  // Get program definition
+  let programDefinition;
+  try {
+    programDefinition = await ProgramDefinition.findOne({
+      program: program._id,
+    })
+      .populate("requiredCourses")
+      .populate("electiveCourses")
+      .populate({
+        path: "choicesCourses",
+        populate: [
+          {
+            path: "choice1",
+          },
+          {
+            path: "choice2",
+          },
+        ],
+      });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+
+  if (programDefinition) {
+    res.json({
+      programDefinition: programDefinition.toObject({ getters: true }),
+    });
+  } else {
+    return res.status(404).json({ message: "No program definition found" });
+  }
+};
+
 exports.createProgramDefinition = createProgramDefinition;
 exports.getProgramDefinition = getProgramDefinition;
+exports.getProgramDefinitionById = getProgramDefinitionById;

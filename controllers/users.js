@@ -21,7 +21,7 @@ const signup = async (req, res, next) => {
 
   let existingUser;
   try {
-    existingUser = await User.findOne({ email: email });
+    existingUser = await User.findOne({ username: username });
   } catch (error) {
     return res
       .status(500)
@@ -29,7 +29,9 @@ const signup = async (req, res, next) => {
   }
 
   if (existingUser) {
-    return res.status(422).json({ message: "User with email already exists" });
+    return res
+      .status(422)
+      .json({ message: "User with username already exists" });
   }
 
   let hashedPassword;
@@ -55,14 +57,19 @@ const signup = async (req, res, next) => {
 
   let token;
   try {
-    token = jwt.sign({ userId: createdUser.id }, "boston_university_secret", {
+    token = jwt.sign({ userId: createdUser.id }, process.env.JWT_KEY, {
       expiresIn: "1h",
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 
-  res.status(201).json({ userId: createdUser.id, token: token });
+  res.status(201).json({
+    userId: createdUser.id,
+    name: createdUser.name,
+    username: createdUser.username,
+    token: token,
+  });
 };
 
 const login = async (req, res, next) => {
@@ -96,16 +103,36 @@ const login = async (req, res, next) => {
 
   let token;
   try {
-    token = jwt.sign({ userId: existingUser.id }, "boston_university_secret", {
+    token = jwt.sign({ userId: existingUser.id }, process.env.JWT_KEY, {
       expiresIn: "1h",
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 
-  res.json({ userId: existingUser.id, token: token });
+  res.json({
+    userId: existingUser.id,
+    name: existingUser.name,
+    username: existingUser.username,
+    token: token,
+  });
+};
+
+const isActive = async (req, res, next) => {
+  const userId = req.userData.userId;
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Get User failed. Please try again later." });
+  }
+
+  res.json(user.toObject({ getters: true }));
 };
 
 exports.getUsers = getUsers;
 exports.signup = signup;
 exports.login = login;
+exports.isActive = isActive;

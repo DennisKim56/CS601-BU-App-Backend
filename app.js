@@ -32,7 +32,7 @@ app.use("/api/users", userRoutes);
 
 mongoose
   .connect(
-    "mongodb+srv://buAdmin:@bu-planning-app.n09tuz2.mongodb.net/app_data"
+    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@bu-planning-app.n09tuz2.mongodb.net/${process.env.DB_NAME}`
   )
   .then(() => {
     app.listen(5000);

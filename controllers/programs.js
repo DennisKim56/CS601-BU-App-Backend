@@ -19,7 +19,7 @@ const createProgram = async (req, res, next) => {
 const getAllPrograms = async (req, res, next) => {
   let programs;
   try {
-    programs = await Program.find({}, "subject concentration");
+    programs = await Program.find({}, "subject concentration url");
   } catch (error) {
     return res
       .status(500)

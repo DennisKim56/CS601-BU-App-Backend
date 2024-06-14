@@ -1,0 +1,8 @@
+{
+  "env": {
+    "DB_USER": "buAdmin",
+    "DB_PASSWORD": "a4PWCDKESmz2AyB9",
+    "DB_NAME": "app_data",
+    "JWT_KEY": "boston_university_secret"
+  }
+}

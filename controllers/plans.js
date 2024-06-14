@@ -31,7 +31,7 @@ const getPlanByUser = async (req, res, next) => {
   if (plan) {
     res.json({ plan: plan.toObject({ getters: true }) });
   } else {
-    return res.status(404).json({ message: "No plan found" });
+    return res.status(204).json({ message: "No plan found" });
   }
 };
 
